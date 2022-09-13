@@ -10,16 +10,33 @@ import java.io.IOException;
 @WebServlet("/home/printDan")
 public class HomeMainServlet3 extends HttpServlet {
 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) 
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-				response.setContentType("text/html; charset=UTF-8");
-				
-				response.getWriter().append("9단<br>");
-				
-				int dan=9;
-				for(int i=1; i<=9; i++) {
-					response.getWriter().append(String.format("%d*%d = %d<br>",dan,i,dan*i));
-				}
+		response.setContentType("text/html; charset=UTF-8");
+
+		String inputedDan = request.getParameter("dan");
+		
+		if(inputedDan==null) {
+			inputedDan="1";
+		}
+		
+		//int dan = 9;
+		int dan = Integer.parseInt(inputedDan);
+		
+		String inputedLimit = request.getParameter("limit");
+		
+		if(inputedLimit==null) {
+			inputedLimit="1";
+		}
+		
+		int limit = Integer.parseInt(inputedLimit);
+		
+
+		response.getWriter().append(String.format("%d단 <br />", dan));
+
+		for (int i = 1; i <= limit; i++) {
+			response.getWriter().append(String.format("%d*%d = %d<br>", dan, i, dan * i));
+		}
 	}
 
 }
