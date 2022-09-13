@@ -31,17 +31,17 @@ public class HomeMainServlet3 extends HttpServlet {
 		
 		int limit = Integer.parseInt(inputedLimit);
 		
-		String inputcolor = request.getParameter("color");
+		String inputedcolor = request.getParameter("color");
 		
-		if(inputcolor==null) {
-			inputcolor="black";
+		if(inputedcolor==null) {
+			inputedcolor="black";
 		}
 		
 
-		response.getWriter().append(String.format("<div style=\"color:%s;\">%d단</div>",inputcolor, dan));
+		response.getWriter().append(String.format("<div style=\"color:%s;\">%d단</div>",inputedcolor, dan));
 
 		for (int i = 1; i <= limit; i++) {
-			response.getWriter().append(String.format("<div style=\"color:%s;\">%d*%d = %d</div>",inputcolor,dan, i, dan * i));
+			response.getWriter().append(String.format("<div style=\"color:%s;\">%d*%d = %d</div>",inputedcolor,dan, i, dan * i));
 		}
 	}
 
