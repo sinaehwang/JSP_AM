@@ -17,12 +17,29 @@ List<Map<String, Object>> articleRows=(List<Map<String, Object>>)request.getAttr
 	
 	<h1>게시물 리스트</h1>
 	
-	<ul>
+	<table border ="1" bordercolor="green">
+		<colgroup>
+			<col width="50" />
+			<col width="200" />
+			<col />
+		</colgroup>
+		<tr>
+			<th>번호</th>
+			<th>날짜</th>
+			<th>제목</th>
+			<th>삭제</th>
+		</tr>
 		<%for(Map<String, Object> articleRow : articleRows){ %>
-			<li><a href="detail?id=<%=(int)articleRow.get("id") %>"><%=(int)articleRow.get("id") %>번, <%=(LocalDateTime)articleRow.get("regDate") %>, <%=(String)articleRow.get("title") %></a></li>
+			
+		<tr>
+			<td><%=articleRow.get("id") %></td>
+			<td><%=articleRow.get("regDate") %></td>
+			<td><a href="detail?id=<%=articleRow.get("id") %>"><%=articleRow.get("title") %></a></td>
+			<td><a href="doDelete?id=<%=articleRow.get("id") %>">삭제하기</a></td>
+		</tr>
+		
 		<%} %>
-	</ul>
 	
-	
+	</table>
 </body>
 </html>
