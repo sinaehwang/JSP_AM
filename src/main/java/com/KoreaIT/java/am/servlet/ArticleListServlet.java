@@ -20,58 +20,71 @@ import com.mysql.cj.jdbc.Driver;
 @WebServlet("/article/list")
 public class ArticleListServlet extends HttpServlet {
 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+
 		response.setContentType("text/html; charset=UTF-8");
-		
+
 		// DB 연결
-				String url = "jdbc:mysql://127.0.0.1:3306/JSPTest?useUnicode=true&characterEncoding=utf8&autoReconnect=true&serverTimezone=Asia/Seoul&useOldAliasMetadataBehavior=true&zeroDateTimeNehavior=convertToNull";
-				String user = "root";
-				String password = "";
+		String url = "jdbc:mysql://127.0.0.1:3306/JSPTest?useUnicode=true&characterEncoding=utf8&autoReconnect=true&serverTimezone=Asia/Seoul&useOldAliasMetadataBehavior=true&zeroDateTimeNehavior=convertToNull";
+		String user = "root";
+		String password = "";
 
-				Connection conn = null;
+		Connection conn = null;
 
-				String driverName = "com.mysql.jdbc.Driver";
+		String driverName = "com.mysql.jdbc.Driver";
 
-				try {
-					Class.forName(driverName);
+		try {
+			Class.forName(driverName);
 
-				} catch (ClassNotFoundException e) {
-					System.out.println("예외 : 클래스가 없습니다.");
-					System.out.println("프로그램을 종료합니다.");
-					return;
-				}
+		} catch (ClassNotFoundException e) {
+			System.out.println("예외 : 클래스가 없습니다.");
+			System.out.println("프로그램을 종료합니다.");
+			return;
+		}
 
-				try {
-					conn = DriverManager.getConnection(url, user, password);
+		try {
+			conn = DriverManager.getConnection(url, user, password);
 
-					response.getWriter().append("Success!!!");
+			int page = 1;
 
-					SecSql sql = SecSql.from("SELECT *");
-					sql.append("FROM article");
-					sql.append("ORDER BY id");
-					sql.append("DESC");
-				
-
-					List<Map<String, Object>> articleRows = DBUtil.selectRows(conn, sql);
-
-					response.getWriter().append(articleRows.toString());
-					
-					request.setAttribute("articleRows", articleRows);
-					
-					request.getRequestDispatcher("/jsp/article/list.jsp").forward(request, response);
-
-				} catch (SQLException e) {
-					e.printStackTrace();
-				} finally {
-					try {
-						if (conn != null && !conn.isClosed()) {
-							conn.close();
-						}
-					} catch (SQLException e) {
-						e.printStackTrace();
-					}
-				}
+			if (request.getParameter("page") != null && request.getParameter("page").length() != 0) {
+				page = Integer.parseInt(request.getParameter("page"));
 			}
 
+			int itemsInAPage = 10;
+
+			int limitFrom = (page - 1) * itemsInAPage;
+
+			SecSql sql = SecSql.from("SELECT COUNT(*) AS cnt");
+			sql.append("FROM article");
+
+			int totalCount = DBUtil.selectRowIntValue(conn, sql);
+			int totalPage = (int) Math.ceil((double) totalCount / itemsInAPage);
+			
+			sql = SecSql.from("SELECT *");
+			sql.append("FROM article");
+			sql.append("ORDER BY id DESC");
+			sql.append("LIMIT ?, ?", limitFrom, itemsInAPage);
+
+			List<Map<String, Object>> articleRows = DBUtil.selectRows(conn, sql);
+
+			request.setAttribute("page", page);
+			request.setAttribute("totalPage", totalPage);
+			request.setAttribute("articleRows", articleRows);
+			request.getRequestDispatcher("/jsp/article/list.jsp").forward(request, response);
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (conn != null && !conn.isClosed()) {
+					conn.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
+	}
+
+}
