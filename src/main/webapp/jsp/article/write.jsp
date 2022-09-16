@@ -1,11 +1,7 @@
-<%@ page import="java.util.List"%>
-<%@ page import="java.util.Map"%>
-<%@ page import="java.time.LocalDateTime"%>
+
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%
-Map<String, Object> articleRow = (Map<String, Object>) request.getAttribute("articleRow");
-%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -16,23 +12,18 @@ Map<String, Object> articleRow = (Map<String, Object>) request.getAttribute("art
 
 	<h1> 게시물 작성 페이지</h1>
 
-	<table border="2" bordercolor="green">
+	<form action="doWrite" method="post">
 	
 		<colgroup>
 			<col width="50" />
 			<col width="200" />
 		</colgroup>
-		<tr>
-			<th>제목</th>
-			<th>내용</th>
-		</tr>
 		
-		<tr>
-			<td><input type="text" /></td>
-			<td><input type="text" /></td>
-		</tr>
-
-	</table>
+		<div>제목 : <input type="text" name="title" placeholder="제목을 입력하세요"></div>
+		<div>내용 : <textarea type="text" name="body"  placeholder="내용을 입력하세요"></textarea></div>
+		
+		<button type="submit">글쓰기</button>
+	</form>
 		<div><a href="list" >리스트로 돌아가기</a> </div>
 </body>
 </html>
