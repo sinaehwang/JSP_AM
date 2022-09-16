@@ -16,18 +16,21 @@ int totalPage = (int) request.getAttribute("totalPage");
 </head>
 <body>
 	<h1>게시물 리스트</h1>
-	<div><a href="write">글쓰기</a></div>
+	
+	<div>
+		<a href="write">글쓰기</a>
+	</div>
 
 	<table border="2" bordercolor="green">
 		<colgroup>
 			<col width="50" />
 			<col width="200" />
-			<col width="250" />
 		</colgroup>
 		<tr>
 			<th>번호</th>
 			<th>날짜</th>
 			<th>제목</th>
+			<th>수정</th>
 			<th>삭제</th>
 		</tr>
 
@@ -38,6 +41,7 @@ int totalPage = (int) request.getAttribute("totalPage");
 			<td><%=articleRow.get("id")%></td>
 			<td><%=articleRow.get("regDate")%></td>
 			<td><a href="detail?id=<%=articleRow.get("id")%>"><%=articleRow.get("title")%></a></td>
+			<td><a href="modify?id=<%=articleRow.get("id")%>">수정하기</a></td>
 			<td><a href="doDelete?id=<%=articleRow.get("id")%>">삭제하기</a></td>
 		</tr>
 		<%
@@ -52,16 +56,7 @@ int totalPage = (int) request.getAttribute("totalPage");
 
 	<div class="page">
 		<%
-		
-		int star = cPage-4;
-		if(star<1) {
-			star=1;
-		}
-		int end = cPage+4;
-		if(end>totalPage) {
-			end=totalPage;
-		}
-		for (int i = star; i <= end; i++) {
+		for (int i = 1; i <= totalPage; i++) {
 		%>
 		<a class="<%=cPage == i ? "red" : "" %>" href="list?page=<%=i%>"><%=i%></a>
 		<%
