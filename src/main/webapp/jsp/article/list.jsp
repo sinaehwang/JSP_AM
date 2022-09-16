@@ -50,7 +50,16 @@ int totalPage = (int) request.getAttribute("totalPage");
 
 	<div class="page">
 		<%
-		for (int i = 1; i <= totalPage; i++) {
+		
+		int star = cPage-4;
+		if(star<1) {
+			star=1;
+		}
+		int end = cPage+4;
+		if(end>totalPage) {
+			end=totalPage;
+		}
+		for (int i = star; i <= end; i++) {
 		%>
 		<a class="<%=cPage == i ? "red" : "" %>" href="list?page=<%=i%>"><%=i%></a>
 		<%
