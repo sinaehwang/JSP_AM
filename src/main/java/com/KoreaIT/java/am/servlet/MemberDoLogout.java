@@ -30,7 +30,6 @@ public class MemberDoLogout extends HttpServlet {
 		
 		request.removeAttribute("loginedMemberId");
 		request.removeAttribute("loginedId");
-		request.removeAttribute("isLogined");
 
 		response.getWriter()
 		.append(String.format("<script>alert('로그아웃되었습니다.'); location.replace('../home/main');</script>"));
