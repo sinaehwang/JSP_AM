@@ -47,14 +47,15 @@ public class MemberDoJoin extends HttpServlet {
 			String loginPw = request.getParameter("loginPw");
 			String name = request.getParameter("name");
 
-			SecSql sql = SecSql.from("SELECT COUNT(*) `member`");
+			SecSql sql = SecSql.from("SELECT COUNT(*) FROM `member`");
 			sql.append("WHERE loginId=?",loginId);
 			
 			int joinableLoginId = DBUtil.selectRowIntValue(conn, sql);
 			
 			if(joinableLoginId>0) {
 				response.getWriter()
-				.append(String.format("<script>alert('%s는 이미 사용중인 아이디입니다.');</script>",joinableLoginId));
+				.append(String.format("<script>alert('%s는 이미 사용중인 아이디입니다.'); location.replace('../member/join');</script>",joinableLoginId));
+				return;
 			}
 					
 			sql = SecSql.from("INSERT INTO `member` SET");
