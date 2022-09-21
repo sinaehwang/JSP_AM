@@ -16,6 +16,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 @WebServlet("/article/modify")
 public class ArticleModifyServlet extends HttpServlet {
@@ -49,7 +50,29 @@ public class ArticleModifyServlet extends HttpServlet {
 			sql.append("FROM article");
 			sql.append("WHERE id = ?", id);
 
+			HttpSession session = request.getSession();
+			int loginedId = (int)session.getAttribute("loginedId");
+			
+			String loginedMemberId = (String)session.getAttribute("loginedMemberId");
+			
+			
 			Map<String, Object> articleRow = DBUtil.selectRow(conn, sql);
+			
+			if(loginedMemberId==null) {
+				
+				response.getWriter()
+				.append(String.format("<script>alert('로그인이 필요합니다.'); location.replace('../member/login');</script>"));
+				
+				return;
+			}
+
+			if(loginedId != (int)articleRow.get("memberId")) {
+				
+				response.getWriter()
+				.append(String.format("<script>alert('%d번글에 대한 권한이 없습니다.'); location.replace('../home/main');</script>",articleRow.get("id")));
+				
+				return;
+			}
 
 			request.setAttribute("articleRow", articleRow);
 			request.getRequestDispatcher("/jsp/article/modify.jsp").forward(request, response);
