@@ -63,7 +63,7 @@ public class DBUtil {
 				rows.add(row);
 			}
 		} catch (SQLException e) {
-			System.out.println("========쿼리예외발생==========\n"+sql);
+			System.out.println("===========QUERY 예외 발생===========\n" +sql);
 			throw new SQLErrorException("SQL 예외, SQL : " + sql, e);
 		} finally {
 			if (rs != null) {
@@ -78,7 +78,6 @@ public class DBUtil {
 				try {
 					stmt.close();
 				} catch (SQLException e) {
-					System.out.println("========쿼리예외발생==========\n"+sql);
 					throw new SQLErrorException("SQL 예외, stmt 닫기, SQL : " + sql, e);
 				}
 			}
@@ -133,14 +132,13 @@ public class DBUtil {
 			}
 
 		} catch (SQLException e) {
-			System.out.println("========쿼리예외발생==========\n"+sql);
+			System.out.println("===========QUERY 예외 발생===========\n" +sql);
 			throw new SQLErrorException("SQL 예외, SQL : " + sql, e);
 		} finally {
 			if (rs != null) {
 				try {
 					rs.close();
 				} catch (SQLException e) {
-					System.out.println("========쿼리예외발생==========\n"+sql);
 					throw new SQLErrorException("SQL 예외, rs 닫기, SQL : " + sql, e);
 				}
 			}
@@ -149,7 +147,6 @@ public class DBUtil {
 				try {
 					stmt.close();
 				} catch (SQLException e) {
-					System.out.println("========쿼리예외발생==========\n"+sql);
 					throw new SQLErrorException("SQL 예외, stmt 닫기, SQL : " + sql, e);
 				}
 			}
@@ -168,14 +165,13 @@ public class DBUtil {
 			stmt = sql.getPreparedStatement(dbConn);
 			affectedRows = stmt.executeUpdate();
 		} catch (SQLException e) {
-			System.out.println("========쿼리예외발생==========\n"+sql);
+			System.out.println("===========QUERY 예외 발생===========\n" +sql);
 			throw new SQLErrorException("SQL 예외, SQL : " + sql, e);
 		} finally {
 			if (stmt != null) {
 				try {
 					stmt.close();
 				} catch (SQLException e) {
-					System.out.println("========쿼리예외발생==========\n"+sql);
 					throw new SQLErrorException("SQL 예외, stmt 닫기, SQL : " + sql, e);
 				}
 			}

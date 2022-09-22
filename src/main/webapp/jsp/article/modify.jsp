@@ -6,7 +6,6 @@
 <%
 Map<String, Object> articleRow = (Map<String, Object>) request.getAttribute("articleRow");
 %>
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -14,10 +13,7 @@ Map<String, Object> articleRow = (Map<String, Object>) request.getAttribute("art
 <title>게시물 수정</title>
 </head>
 <body>
-	
-	<script>
-	
-	</script>
+
 	<h1>
 		<%=(int) articleRow.get("id")%>번 게시물 수정
 	</h1>

@@ -19,18 +19,14 @@ import jakarta.servlet.http.HttpServletResponse;
 @WebServlet("/member/login")
 public class MemberLoginServlet extends HttpServlet {
 	@Override
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		response.setContentType("text/html; charset=UTF-8");
-		
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		request.getRequestDispatcher("/jsp/member/login.jsp").forward(request, response);
-		
-			}
-	@Override
+	}
 
+	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-
 		doGet(request, response);
 	}
 

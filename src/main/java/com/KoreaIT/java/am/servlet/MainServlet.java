@@ -21,11 +21,12 @@ import jakarta.servlet.http.HttpSession;
 @WebServlet("/home/main")
 public class MainServlet extends HttpServlet {
 	@Override
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+
 		response.setContentType("text/html; charset=UTF-8");
 
-		String driverName = Config.getDBDriverName();
+		String driverName = Config.getDBDriverClassName();
 
 		try {
 			Class.forName(driverName);
@@ -43,21 +44,21 @@ public class MainServlet extends HttpServlet {
 			HttpSession session = request.getSession();
 
 			boolean isLogined = false;
-			int loginedId = -1;
+			int loginedMemberId = -1;
 			Map<String, Object> loginedMemebrRow = null;
 
-			if (session.getAttribute("loginedMemberId") != null) {
-				loginedId = (int) session.getAttribute("loginedId");
+			if (session.getAttribute("loginedMemberLoginId") != null) {
+				loginedMemberId = (int) session.getAttribute("loginedMemberId");
 				isLogined = true;
 
 				SecSql sql = SecSql.from("SELECT * FROM `member`");
-				sql.append("WHERE id = ?;", loginedId);
+				sql.append("WHERE id = ?;", loginedMemberId);
 				loginedMemebrRow = DBUtil.selectRow(conn, sql);
 
 			}
 
 			request.setAttribute("isLogined", isLogined);
-			request.setAttribute("loginedId", loginedId);
+			request.setAttribute("loginedMemberId", loginedMemberId);
 			request.setAttribute("loginedMemebrRow", loginedMemebrRow);
 
 			request.getRequestDispatcher("/jsp/home/main.jsp").forward(request, response);
@@ -82,5 +83,4 @@ public class MainServlet extends HttpServlet {
 			throws ServletException, IOException {
 		doGet(request, response);
 	}
-
 }
